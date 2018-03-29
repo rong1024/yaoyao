@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+<style>
+  p{text-indent:30px;}
+</style>
+</head>
+<body>
+  <div id="name-box">
+    <span>用户名</span>
+    <input type="text" name="user-name" value="" placeholder="用户名">
+    <button>验证</button>
+    <p>必填，长度为4-16</p>
+  </div>
+<script>
+  var obtn=document.getElementsByTagName('button')[0];
+  var op=document.getElementsByTagName('p')[0];
+  var re=/[^\w\u4e00-\u9fa5]/g;
+  function getLength(str){
+    return str.replace(/\s/g,'').replace(/[^\x00-xff]/g,"xx").length;
+  }
+  obtn.onclick=function(){
+    var oinput=document.getElementsByTagName('input')[0];
+    var nameLength=getLength(oinput.value);
+    if(nameLength==0){
+      op.innerHTML="姓名不能为空";
+    }else if(nameLength<4||nameLength>16){
+      op.innerHTML="长度超过\'4-16\'的范围";
+    }else{
+      op.innerHTML="格式正确";
+    }
+
+  }
+</script>
+</body>
+</html>

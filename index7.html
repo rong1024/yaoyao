@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+*{
+  margin:0;
+  padding:0;
+  font-family:微软雅黑;
+  font-size:12px;
+}
+#div1{
+  height:1500px;
+  background:#fff;
+}
+#box{
+  width:100px;
+  height:40px;
+  position:relative;
+  margin-top:20px;
+  margin-left:700px;
+}
+#shadow{
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:0;
+  width:100%;
+  background-color:#000;
+  opacity: .2;
+  filter:alpha(opacity=20);
+}
+#dia1{
+  position:fixed;
+  width:400px;
+  height:200px;
+  background-color:#EEE;
+  border:1px solid #aaa;
+  z-index:1;
+  top:50%;
+  left:50%;
+  margin-left:-200px;
+  margin-top:-100px;
+}
+#p1{
+  height:40px;
+  line-height:40px;
+  border-bottom:1px solid #aaa;
+  padding-left:20px;
+}
+#div2{
+  height:159px;
+  background-color:#FFF;
+  padding-left:20px;
+  padding-right:20px;
+}
+#p2{
+  height:40px;
+  line-height:40px;
+}
+button{
+  width:80px;
+  height:35px;
+  background-color:#eee;
+  border:1px solid #aaa;
+  margin-top:60px;
+  margin-left:180px;
+}
+#button2{
+  margin-left:20px;
+}
+  </style>
+</head>
+<body>
+  <div id="div1">
+    <button id='box'>弹框</button>
+  </div>
+  <script>
+    var d=document.getElementById('div1');
+    var button=document.getElementById("box");
+    button.onclick=function(){
+      createfom();
+    }
+    function createfom(){
+      var shadow=document.createElement("div");
+      d.appendChild(shadow);
+      shadow.id="shadow";
+      var oHeight=document.documentElement.scrollHeight;//标记
+      shadow.style.height=oHeight+'px';
+      var dia1=document.createElement("div");
+      dia1.id="dia1";
+      d.appendChild(dia1);
+      var p1=document.createElement("p");
+      p1.innerHTML="这是一个浮出层";
+      p1.id="p1";
+      dia1.appendChild(p1);
+      var div2=document.createElement("div");
+      div2.id="div2";
+      dia1.appendChild(div2);
+      var p2=document.createElement("p");
+      p2.innerHTML="这是一个浮出层";
+      p2.id="p2";
+      div2.appendChild(p2);//30
+      var button1=document.createElement("button");
+      button1.innerHTML="确定";
+      button1.id="button1";
+      div2.appendChild(button1);
+      var button2=document.createElement("button");
+      button2.innerHTML="取消";
+      button2.id="button2";
+      div2.appendChild(button2);
+
+      turnoff(button1,dia1,shadow);
+      turnoff(button2,dia1,shadow);
+      turnoff(shadow,dia1,shadow);
+    }
+    //关闭浮出层
+    function turnoff(element,eventOne,eventTwo){
+      element.onclick=function(){
+        d.removeChild(eventOne);
+        d.removeChild(eventTwo);
+      }
+    }
+  </script>
+</body>
+</html>

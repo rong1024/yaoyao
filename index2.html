@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+<style>
+  p{text-indent:30px;display:none;}
+</style>
+</head>
+<body>
+  <div id="name-box">
+    <span>用户名</span>
+    <input type="text" name="user-name" value="" placeholder="用户名">
+    <p>必填，长度为4-16</p>
+  </div>
+  <div id="key-box">
+    <span>密码</span>
+    <input type="password" name="user-name" value="" placeholder="用户名">
+    <p></p>
+  </div>
+  <div id="key-confirm-box">
+    <span>密码确认</span>
+    <input type="password" name="user-name" value="" placeholder="用户名">
+    <p>再次输入密码</p>
+  </div>
+  <div class="email">
+    <span>邮箱</span>
+    <input type="text" name="user-name" value="" placeholder="用户名">
+    <p></p>
+  </div>
+  <div class="cellphone">
+    <span>邮箱</span>
+    <input type="text" name="user-name" value="" placeholder="用户名">
+    <p></p>
+  </div>
+  <button>验证</button>
+<script>
+  var ainput=document.getElementsByTagName('input');
+  var nameInput=ainput[0];
+  var keyInput=ainput[1];
+  var keyConfirm=ainput[2];
+  var email=ainput[3];
+  var obtn=document.getElementsByTagName('button')[0];
+  var op=document.getElementsByTagName('p');
+  var re=/[^\w\u4e00-\u9fa5]/g;
+  function getLength(str){
+    return str.replace(/\s/g,'').replace(/[^\x00-xff]/g,"xx").length;
+  }
+  nameInput.onkeyup=function(){
+    var nameLength=getLength(this.value);
+    op[0].style.display="block";
+    if(nameLength==0){
+      op[0].innerHTML="姓名不能为空";
+    }else if(nameLength<4){
+      op[0].innerHTML="长度太小";
+    }else{
+      op[0].innerHTML="密码可用";
+    }
+  }
+  nameInput.onblur=function(){
+    var nameLength=getLength(this.value);
+    if(nameLength>=4){
+      op[0].style.display="none";
+    }
+  }
+  keyInput.onkeyup=function(){
+    op[1].style.display="block";
+    if(this.value.length<6){
+      op[1].innerHTML="密码长度太小";
+    }else{
+      op[1].innerHTML="该密码符合规范";
+    }
+  }
+  keyConfirm.onfocus=function(){
+    op[2].style.display="block";
+  }
+  keyConfirm.onblur=function(){
+    var val=this.value;
+    if(val==keyInput.value){
+      op[2].innerHTML="两次密码输入一致";
+    }else{
+      op[2].innerHTML="两次密码输入不同";
+    }
+  }
+  email.onkeyup=function(){
+    op[3].style.display="block";
+    var reg=/^[a-zA-Z0-9_-]+@([a-zA-Z0-9_-])+\.com/;
+    if(reg.test(this.value)==false){
+      op[3].innerHTML="邮箱格式错误";
+    }else{
+      op[3].innerHTML="邮箱格式正确";
+    }
+  };
+</script>
+</body>
+</html>

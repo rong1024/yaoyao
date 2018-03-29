@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+<style>
+  div{text-align: center;}
+  table{border-collapse:collapse;margin:20px auto;}
+  td{width:26px;height:26px;border:1px solid #ccc;}
+  tr:nth-child(1) td{border:none;}
+  tr td:nth-child(1){border:none;}
+</style>
+</head>
+<body>
+  <table>
+    <tbody>
+      <tr>
+        <td></td>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+    <button id="go">前进</button>
+    <button id="left">左转</button>
+    <button id="right">右转</button>
+  </div>
+<script>
+  var x=0;
+  var y=0;
+  var goBtn=document.getElementById('go');
+  var atr=document.getElementsByTagName('tr');
+  var leftBtn=document.getElementById('left');
+  var rightBtn=document.getElementById('right');
+  var previous;
+  function initialize(){
+    x=2;
+    y=2;
+    previous=atr[y].children[x];
+    newDivFn(0);
+  }
+  function newDivFn(num){
+    var newDiv=document.createElement('div');
+    var newDiv1=document.createElement('div');
+    var newDiv2=document.createElement('div');
+    newDiv.style.height="100%";
+    newDiv1.style.background="blue";
+    newDiv1.style.height="20%";
+    newDiv.appendChild(newDiv1);
+    newDiv2.style.background="red";
+    newDiv2.style.height="80%";
+    newDiv.appendChild(newDiv2);
+    previous.appendChild(newDiv);
+    newDiv.style.transform="rotate("+num+"deg)";
+  }
+  goBtn.onclick=function(){
+    if(x==0&&y==0){
+      initialize();
+    }else{
+      go();
+    }
+  }
+  function go(){
+    var oDiv=previous.children[0];
+    var str=oDiv.style.transform;
+    var oldDeg=parseInt(str.match(/-?\d+/).join(""));
+    switch(oldDeg){
+      case 0:y-=1;break;
+      case 90:x+=1;break;
+      case 180:y+=1;break;
+      case 270:x-=1;break;
+    }
+    if(x==0){
+      x=1;
+    }else if(x==7){
+      x=6;
+    }
+    if(y==0){
+      y=1;
+    }else if(y==7){
+      y=6;
+    }
+    previous.removeChild(previous.children[0]);
+    previous=atr[y].children[x];
+    newDivFn(oldDeg);
+  }
+  leftBtn.onclick=function(){
+    var oDiv=previous.children[0];
+    var str=oDiv.style.transform;
+    var oldDeg=str.match(/-?\d+/).join("");
+    var newDeg=oldDeg-90;
+    if(newDeg<0){
+      newDeg+=360;
+    }
+    oDiv.style.transform="rotate("+newDeg+"deg)";
+  }
+  rightBtn.onclick=function(){
+    var oDiv=previous.children[0];
+    var str=oDiv.style.transform;
+    var oldDeg=str.match(/-?\d+/).join("");
+    var newDeg=parseInt(oldDeg)+90;
+    if(newDeg>=360){
+      newDeg-=360;
+    }
+    oDiv.style.transform="rotate("+newDeg+"deg)";
+  }
+</script>
+</body>
+</html>

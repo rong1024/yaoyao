@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+<style>
+  .wrap{width:250px;height:400px;margin:0 auto;position:relative;}
+  table{border-collapse:collapse;}
+  td{width:30px;height:30px;border:1px solid #ccc;}
+  table tr:nth-child(1) td,
+  table tr td:nth-child(1){border:none;}
+  .operation{text-align:center;}
+  .square{position:absolute;left:32px;top:32px;width:33px;height:33px;background:red;transform:rotate(0deg);}
+  .blue{height:20%;background:blue;}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <table>
+      <tbody>
+        <tr>
+          <td></td>
+          <td>1</td>
+          <td>2</td>
+          <td>3</td>
+          <td>4</td>
+          <td>5</td>
+          <td>6</td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="operation">
+      <button id="go">前进</button>
+      <button id="left">左转</button>
+      <button id="right">右转</button>
+    </div>
+    <div class="square" id="square">
+      <div class="blue"></div>
+    </div>
+  </div>
+<script>
+  var flag=true;
+  var goBtn=document.getElementById('go');
+  var atr=document.getElementsByTagName('tr');
+  var leftBtn=document.getElementById('left');
+  var rightBtn=document.getElementById('right');
+  var odiv=document.getElementById('square');
+  odiv.style.transform="rotate(0deg)";
+  //左转
+  leftBtn.onclick=function(){
+    if(!flag){
+      return 0;
+    }
+    flag=false;
+    var angle=0;
+    var str=odiv.style.transform;
+    var oldDeg=parseInt(str.match(/-?\d+/).join(""));
+    var newDeg;
+    odiv.timer=setInterval(function(){
+      angle+=1;
+      newDeg=oldDeg-angle;
+      if(newDeg<0){
+        newDeg+=360;
+      }
+      odiv.style.transform="rotate("+newDeg+"Deg)";
+      if(angle==90){
+        clearInterval(odiv.timer);
+        flag=true;
+      }
+    },10)
+
+  }
+  //右转
+  rightBtn.onclick=function(){
+    if(!flag){
+      return 0;
+    }
+    flag=false;
+    var angle=0;
+    var str=odiv.style.transform;
+    var oldDeg=parseInt(str.match(/-?\d+/).join(""));
+    var newDeg;
+    odiv.timer=setInterval(function(){
+      angle+=1;
+      newDeg=oldDeg+angle;
+      if(newDeg>=360){
+        newDeg-=360;
+      }
+      odiv.style.transform="rotate("+newDeg+"Deg)";
+      if(angle==90){
+        clearInterval(odiv.timer);
+        flag=true;
+      }
+    },10)
+
+  }
+  goBtn.onclick=function(){
+    var x=getComputedStyle(odiv,false)["left"];
+    var y=getComputedStyle(odiv,false)["top"];
+    var a=parseInt(odiv.style.transform.match(/\d+/).join(''));
+    var speed,direction;
+    switch(a){
+      case 0:speed=-1;direction="Y";break;
+      case 90:speed=1;direction="X";break;
+      case 180:speed=1;direction="Y";break;
+      case 270:speed=-1;direction="X";break;
+    }
+    move(speed,direction);
+  }
+  function move(speed,direction){
+    var change=0;
+    var timer=setInterval(function(){
+    var nowX,nowY;
+    var leftVal=parseInt(getComputedStyle(odiv,false)["left"]);
+    var topVal=parseInt(getComputedStyle(odiv,false)["top"]);
+      if(direction=="X"){
+        nowX=leftVal+speed;
+        nowX=limit(nowX);
+        odiv.style.left=nowX+'px';
+      }
+      if(direction=="Y"){
+        nowY=topVal+speed;
+        nowY=limit(nowY);
+        odiv.style.top=nowY+'px';
+      }
+      change++;
+      if(change==33){
+        clearInterval(timer);
+      }
+    },20);
+  }
+  function limit(a){
+    if(a<=32){
+      a=32;
+    }else if(a>197){
+      a=197;
+    }
+    return a;
+  }
+</script>
+</body>
+</html>
